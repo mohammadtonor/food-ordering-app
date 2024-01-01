@@ -1,29 +1,41 @@
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import GoogleProvider from "next-auth/providers/google";
+import { User } from "../../../../models/User";
 
 const handler = NextAuth({
-    providers: [
-        CredentialsProvider({
-          name: "Credentials",
-         credentials: {
-            username: { label: "Emai;", type: "email", placeholder: "test@example.com" },
-            password: { label: "Password", type: "password" }
-          },
-          async authorize(credentials, req) {
-            // Add logic here to look up the user from the credentials supplied
-            const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-      
-            if (user) {
-              // Any object returned will be saved in `user` property of the JWT
-              return user
-            } else {
-              // If you return null then an error will be displayed advising the user to check their details.
-              return null
-      
-              // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-            }
+  secret: process.env.SECRET,
+  providers: [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      }),
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          email: { label: "Email", type: "email", placeholder: "test@example.com" },
+          password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials, req) {
+          const email = credentials?.email;
+          const password = credentials?.password;
+
+          mongoose.connect(process.env.MONGO_URL);
+          const user = await User.findOne({email});
+          console.log(email, password,user);
+          
+          const passwordOk = user && bcrypt.compareSync(password, user.password);            
+          
+          if (passwordOk) {
+            return user;
           }
-        })
-      ]
+
+          return null;
+        }
+      })
+  ]
 })
+
+export {handler as GET, handler as POST}

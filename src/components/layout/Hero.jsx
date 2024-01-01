@@ -1,4 +1,4 @@
-import {Right} from "@/components/icons/Right";
+import {Right} from "../icons/Right";
 import Image from "next/image";
 
 export  function Hero() {
