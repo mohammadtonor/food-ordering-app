@@ -5,7 +5,12 @@ import Link from "next/link"
 
 export default function Header() {
   const session = useSession();
-  console.log(session);;
+  const status = session?.status
+  const userData = session.data?.user;
+  let username = userData?.name || userData?.email;
+  if (username?.includes(' ')) {
+    username = username.split(' ')[0]
+  }
     return (
         <header className='flex items-center border-b justify-between pb-3'>
         <Link href='/' className='text-primary font-semibold uppercase text-2xl'>
@@ -19,14 +24,19 @@ export default function Header() {
           <Link href=''>Contact</Link>
         </nav>
         <nav className="flex items-center gap-4 text-gray-500 font-semibold">
-          {session.status === "authenticated" && (
+          {status === "authenticated" && (
+            <>
+              <Link className="whitespace-nowrap" href={'/profile'}>
+                Hello, {username}
+              </Link>
             <button
               onClick={() => signOut()}
               className="bg-primary rounded-full px-8 py-2 border-white text-white">
                 LogOut
             </button>
+          </>
           )}
-          {session.status === "unauthenticated" && (
+          {status === "unauthenticated" && (
             <>
               <Link href='/login'>Login</Link>
               <Link href='register'

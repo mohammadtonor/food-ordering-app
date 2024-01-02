@@ -34,7 +34,7 @@ const LoginPage = () => {
                 />
                <button type="submit" disabled={loginInProgress}>Login</button>
                <div className="my-4 text-center text-gray-500">or login whith google</div>
-                <button onClick={() => signIn('google')} className="flex gap-4 justify-center">
+                <button type="button" onClick={() => signIn('google', {callbackUrl: '/'})} className="flex gap-4 justify-center">
                     <Image src={'/google.png'} alt="google" width={20} height={20}/>
                     Login with google
                 </button>
