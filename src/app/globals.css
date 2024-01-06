@@ -7,9 +7,11 @@ section.hero {
     grid-template-columns: .6fr .6fr;
 }
 
+select,
 input[type="email"],
 input[type="password"],
 input[type="tel"],
+input[type="number"],
 input[type="text"] {
     @apply block w-full my-2 rounded-xl;
     @apply focus:border focus:border-sky-900 p-2  bg-gray-100;
@@ -22,6 +24,10 @@ input[type="text"]:disabled {
     @apply bg-gray-300  cursor-not-allowed  text-gray-500;
 }
 
+.span {
+   @apply bg-gray-200 text-gray-500 rounded-full px-3 p-1.5
+}
+
 button, .button{
     @apply flex w-full justify-center gap-2 text-gray-700 font-semibold;
     @apply rounded-xl bg-gray-100  px-6 py-2;
@@ -31,7 +37,7 @@ label {
     @apply text-gray-500 text-sm leading-tight
 }
 
-button[type="submit"], .submit {
+button[type="submit"], .primary,.submit {
     @apply border-0 bg-primary text-white
 }
 

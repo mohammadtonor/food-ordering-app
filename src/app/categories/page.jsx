@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { UserTabs } from './../../components/layout/tabs';
 import {useProfile} from '../../hooks/UseProfile'
 import toast from 'react-hot-toast';
+import { Edit, Edit2, Trash, Trash2 } from 'lucide-react';
 
 const CategoriesPage = () => {
     const [categoryName, setCategoryName] = useState('');
@@ -52,6 +53,30 @@ const CategoriesPage = () => {
             success: editedCategory ? 'Updated category succesfuly' :  'Categgory Creation Successful!',
             error: editedCategory ? 'Failed Updating Category.' : 'Failed to create category.'
         })
+
+        fetchCategories();
+    }
+
+    const handleDeleteCategory = async (_id) => {
+        const deleteProomis = new Promise(async (resolve, reject) => {
+            const response = await fetch('/api/categories?_id=' + _id, {
+                method: 'DELETE',
+            })
+
+            if (response.ok)
+                resolve();
+            else
+                reject();
+        });
+
+        
+        toast.promise(deleteProomis, {
+            loading: 'Deleting...',
+            success: "Categories deleted succes!",
+            error: 'Failed to delete categories'
+        })
+        
+        fetchCategories();
     }
 
     if (profileFething) {
@@ -80,31 +105,52 @@ const CategoriesPage = () => {
                             onChange={ev => setCategoryName(ev.target.value)}
                         />
                     </div>
-                    <div className='pb-1'>
-                        <button type='submit' className=''>
-                           {editedCategory ? 'Update' : 'Create'} 
+                    <div className='pb-1 flex gap-1'>
+                        <button type='submit'>
+                            {editedCategory ? 'Update' : 'Create'} 
                         </button>
+                        {editedCategory && (
+                            <button
+                            type='button'
+                                onClick={() => {
+                                    setEditedCategory(null);
+                                    setCategoryName('')
+                                }}
+                        >
+                            Cancel
+                        </button>
+                        )}
                     </div>
                 </div>
 
             </form>
             <div>
-                <h2 className='mt-8 text-sm text-gray-500'>Edit category</h2>
+                <h2 className='mt-8 mb-2 text-sm text-gray-500'>Edit category</h2>
                 {categories.length > 0 && categories.map((category) => (
                     <div
-                        key={category._id}
-                        className='flex gap-1 bg-gray-200 rounded-xl p-2 px-4 mb-2'
+                        className='bg-gray-200  px-4 justify-end rounded-xl items-center p-2 flex gap-2 mb-1'
                     >
-                        <button
-                            type='button'
-                            onClick={() => {
-                                setEditedCategory(category)
-                                setCategoryName(category.name)
-                            }}
-                            className=''>
-                            <span>{category.name}</span>
-                        </button>
-                   </div>
+                        <div className='grow'>
+                            {category.name}
+                        </div>
+                        <div className='flex gap-1 items-center'>
+                            <button
+                                onClick={() => {
+                                    setEditedCategory(category)
+                                    setCategoryName(category.name)
+                                }}
+                                type='button' className='p-1'>
+                                <Edit className='w-5 h-5'/>
+                            </button>
+                            <button
+                                type='button'
+                                className='p-[6px]'
+                                onClick={() => handleDeleteCategory(category._id)}
+                            >
+                                <Trash2 className='w-5 h-5' />
+                            </button>
+                        </div>
+                    </div>
                 ))}
             </div>
         </section>

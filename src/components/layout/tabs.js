@@ -30,7 +30,7 @@ export const UserTabs = ({ isAdmin }) => {
                 </Link>
                 <Link
                     href={'/users'}
-                    className={pathName === '/users' ? 'active' : ''}
+                    className={pathName.includes('/users') ? 'active' : ''}
                     >
                         Users
                 </Link>        
