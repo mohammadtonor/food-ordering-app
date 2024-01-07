@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { UserTabs } from './../../components/layout/tabs';
-import { useProfile } from './../../hooks/UseProfile';
+import { useProfile } from './../../components/UseProfile';
 import { ArrowRightCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';

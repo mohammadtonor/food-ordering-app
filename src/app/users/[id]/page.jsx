@@ -1,6 +1,6 @@
 'use client';
 
-import {useProfile} from './../../../hooks/UseProfile'
+import {useProfile} from '../../../components/UseProfile'
 import { UserTabs } from './../../../components/layout/tabs';
 import { UserForm } from './../../../components/layout/user-form';
 import { useEffect, useState } from 'react';

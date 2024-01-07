@@ -30,7 +30,7 @@ export const MenuItemForm = ({ onSubmit, menuItem }) => {
             category, extraIngredientPrices
            })
         }
-            className='mx-auto  max-w-lg mt-8'>
+            className='mx-auto  max-w-2xl mt-8'>
             <div
                 style={{gridAutoColumns: '.1fr .7fr'}}
                 className='flex gap-2 items-start' >

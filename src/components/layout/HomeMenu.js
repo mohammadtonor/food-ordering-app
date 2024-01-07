@@ -1,8 +1,20 @@
+'use client';
+
 import Image from "next/image";
 import { MenuItem } from "../menu/MenuItem";
 import SectionHeader from "./section-header";
+import { useEffect, useState } from "react";
 
 export const HomeMenu = () => {
+    const [bestSallers, setBestSaller] = useState([]);
+    useEffect(() => {
+        fetch('/api/menu-items').then(res => {
+            res.json().then(menuItems => {
+                setBestSaller(menuItems.slice(-2));
+            })
+        })
+    }, []);
+
     return ( 
         <section>
             <div className="absolute left-0 right-0 w-full justify-start 
@@ -16,15 +28,15 @@ export const HomeMenu = () => {
                 </div>
             </div>
             <div className="text-center mb-4">
-                <SectionHeader mainHeader="menu" subHeader="checkout"/>  
+                <SectionHeader
+                    mainHeader="check out"
+                    subHeader="Our best sallers"
+                />  
             </div>
             <div className="grid grid-cols-3 gap-4">
-                <MenuItem />
-                <MenuItem />
-                <MenuItem />
-                <MenuItem />
-                <MenuItem />
-                <MenuItem />
+                {bestSallers.length > 0 && bestSallers.map(item => (
+                    <MenuItem key={item._id} {...item} />
+                ))}
             </div>
         </section>
 

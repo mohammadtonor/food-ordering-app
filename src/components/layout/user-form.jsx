@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { EditableImage } from './../EditableImage';
+import { useProfile } from '../UseProfile';
 
 export const UserForm = ({ onSave, data }) => {
+    console.log('dfdskfsdlk',data);
     const [userName, setUserName] = useState(data?.name);
     const [imageUrl, setImageUrl] = useState(data?.image ||'');
     const [phone, setPhone] = useState( data?.phone || '');
@@ -11,9 +13,11 @@ export const UserForm = ({ onSave, data }) => {
     const [city, setCity] = useState(data?.city || '');
     const [country, setCountry] = useState(data?.country ||'');
     const [postalCode, setPostalCode] = useState(data?.postalCode || '');
+    const [admin, setAdmin] = useState(data?.admin || '');
+    const { data: loggedInUser } = useProfile();
     
     return (
-        <div className="max-w-xl mx-auto">
+        <div className="max-w-2xl mx-auto">
             <div className='flex gap-4 items-center'>
                 <div className="h-full w-[180px] mb-auto">
                     <div className='bg-gray-100 p-2 rounded-lg mt-1'>
@@ -27,7 +31,7 @@ export const UserForm = ({ onSave, data }) => {
                             name: userName,
                             image: imageUrl,
                             phone, streetAddress, postalCode,
-                            city, country
+                            city, country , admin
                         })
                     }}
                 >
@@ -51,7 +55,7 @@ export const UserForm = ({ onSave, data }) => {
                     <input
                         type="text" placeholder="Street address"
                         value={streetAddress} onChange={ev => setStreetAddress(ev.target.value)} />
-                    <div className="flex gap-2 ">
+                    <div className="grid grid-cols-2 gap-2 ">
                         <div>
                             <label>postal Code</label>
                             <input
@@ -73,6 +77,19 @@ export const UserForm = ({ onSave, data }) => {
                         className="m-0"
                         value={country} onChange={ev => setCountry(ev.target.value)}
                     />
+                    {loggedInUser.admin && (
+                        <div>
+                            <label htmlFor='adminCb' className='p-2 inline-flex items-center borde gap-2 mb-2 '>
+                                <input
+                                    id="adminCb" type='checkbox' value={'1'}
+                                    checked={admin}
+                                    onChange={(e) => setAdmin(e.target.checked)}
+                                    
+                                    />
+                                <span>Admin</span>
+                            </label>
+                        </div>
+                    )}
                     <button type='submit'>Save</button>
                 </form>
             </div>

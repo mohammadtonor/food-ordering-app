@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { UserTabs } from './../../components/layout/tabs';
-import { useProfile } from './../../hooks/UseProfile';
+import { useProfile } from './../../components/UseProfile';
 import Link from 'next/link';
 const UsersPage = () => {
     const [users, setUsers] = useState([]);

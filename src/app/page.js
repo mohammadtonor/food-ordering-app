@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <Hero />
       <HomeMenu />
-      <section className='mt-8 text-center'>
+      <section id="about" className='mt-8 text-center'>
 
         <SectionHeader mainHeader={'about us'} subHeader={'our story'} />
 
@@ -30,7 +30,7 @@ export default function Home() {
           </p>
         </div>
       </section>
-      <section className='text-center my-8'>
+      <section id='contact' className='text-center my-8'>
         <SectionHeader
           subHeader={'don\'t hesitate'}
           mainHeader={'Contact us'}

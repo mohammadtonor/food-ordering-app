@@ -1,7 +1,7 @@
 'use client';
 
 import { UserTabs } from './../../../components/layout/tabs';
-import { useProfile } from './../../../hooks/UseProfile';
+import { useProfile } from './../../../components/UseProfile';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { ArrowLeftCircleIcon } from 'lucide-react';

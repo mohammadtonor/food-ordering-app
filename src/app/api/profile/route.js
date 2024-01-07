@@ -30,8 +30,6 @@ export async function GET(req) {
 
     const url = new URL(req.url);
     const _id = url.searchParams.get('_id');
-    console.log(_id);
-    console.log(req.url);
 
     let filterUser;
     if (_id) {
@@ -47,6 +45,5 @@ export async function GET(req) {
     
     const user = await User.findOne(filterUser).lean();
     const userInfo = await UserInfo.findOne({ email: user.email }).lean();
-    console.log(user,userInfo);
     return Response.json({...user, ...userInfo});
 }

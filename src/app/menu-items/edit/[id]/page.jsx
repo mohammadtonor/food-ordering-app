@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useProfile } from './../../../../hooks/UseProfile';
+import { useProfile } from './../../../../components/UseProfile';
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { UserTabs } from './../../../../components/layout/tabs'

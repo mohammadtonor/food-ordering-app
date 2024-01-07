@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { UserTabs } from './../../components/layout/tabs';
-import {useProfile} from '../../hooks/UseProfile'
+import {useProfile} from '../../components/UseProfile'
 import toast from 'react-hot-toast';
 import { Edit, Edit2, Trash, Trash2 } from 'lucide-react';
 

@@ -1,12 +1,11 @@
 'use client';
 
+import { UserForm } from './../../components/layout/user-form';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import {InfoBox} from '../../components/layout/InfoBox'
 import toast from "react-hot-toast";
 import { UserTabs } from './../../components/layout/tabs';
-import { UserForm } from './../../components/layout/user-form';
 const ProfilePage = () => {
     const session = useSession();
     const [userInfo, setUserInfo] = useState(null);
