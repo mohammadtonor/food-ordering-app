@@ -25,7 +25,6 @@ export const MenuItem = (menuItem) => {
                 return prev.filter(e => e.name !== extraThing.name);
             })
         }
-        console.log(selectedExtras);
     } 
 
     const {addToCart} = useContext(CartContext);
@@ -39,7 +38,9 @@ export const MenuItem = (menuItem) => {
         }
         addToCart(menuItem, selectedSize, selectedExtras);
         setShowPopup(false);
-        toast.success('Added to cart');
+        toast.success('Added to cart', {
+            position: 'top-right',
+        });
     }
 
     let selectedPrice = basePrice;

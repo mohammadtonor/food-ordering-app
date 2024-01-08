@@ -35,7 +35,10 @@ export const UserTabs = ({ isAdmin }) => {
                         Users
                 </Link>        
             </>
-         )}
+            )}
+            <Link href={'/orders'} className={pathName === '/orders' ? 'active' : ''}>
+                Orders    
+            </Link>
        </div>
     );
 }

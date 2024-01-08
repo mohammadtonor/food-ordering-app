@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { EditableImage } from './../EditableImage';
 import { useProfile } from '../UseProfile';
+import { AddressInput } from './AddressInput';
 
 export const UserForm = ({ onSave, data }) => {
     console.log('dfdskfsdlk',data);
@@ -15,6 +16,14 @@ export const UserForm = ({ onSave, data }) => {
     const [postalCode, setPostalCode] = useState(data?.postalCode || '');
     const [admin, setAdmin] = useState(data?.admin || '');
     const { data: loggedInUser } = useProfile();
+
+    const handleSetProps = (propName, propsValue) => {
+        if (propName === 'phone') setPhone(propsValue);
+        if (propName === 'streetAddress') setStreetAddress(propsValue);
+        if (propName === 'postalCode') setPostalCode(propsValue);
+        if (propName === 'city') setCity(propsValue);
+        if (propName === 'country') setCountry(propsValue);
+     }
     
     return (
         <div className="max-w-2xl mx-auto">
@@ -44,38 +53,9 @@ export const UserForm = ({ onSave, data }) => {
                     />
                     <label>Email</label>
                     <input type='email' disabled={true} value={data?.email} />
-                    <label>Phone Number</label>
-                    <input
-                        type="tel"
-                        placeholder="Phone number"
-                        onChange={ev => setPhone(ev.target.value)}
-                        value={phone}
-                    />
-                    <label>Address</label>
-                    <input
-                        type="text" placeholder="Street address"
-                        value={streetAddress} onChange={ev => setStreetAddress(ev.target.value)} />
-                    <div className="grid grid-cols-2 gap-2 ">
-                        <div>
-                            <label>postal Code</label>
-                            <input
-                                type="text" placeholder="Postal code"
-                                value={postalCode} onChange={ev => setPostalCode(ev.target.value)}
-                                />
-                        </div>
-                        <div>
-                            <label>city</label>
-                            <input
-                                type="text" placeholder="city"
-                                value={city} onChange={ev => setCity(ev.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <label>Country</label>
-                    <input
-                        type="text" placeholder="Country"
-                        className="m-0"
-                        value={country} onChange={ev => setCountry(ev.target.value)}
+                    <AddressInput
+                        addressProps={{ phone, streetAddress, postalCode, city, country }}
+                        setAddressProps={handleSetProps}
                     />
                     {loggedInUser.admin && (
                         <div>

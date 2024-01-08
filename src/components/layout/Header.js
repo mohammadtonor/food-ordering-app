@@ -2,11 +2,13 @@
 
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../AppContext";
-import { ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart, X } from "lucide-react";
+import { MainTopMenu } from './main-menu';
 
 export default function Header() {
+  const [showPwaMenu, setShowPwaMenu] = useState(false);
   const session = useSession();
   const status = session?.status
   const userData = session.data?.user;
@@ -15,18 +17,36 @@ export default function Header() {
   if (username?.includes(' ')) {
     username = username.split(' ')[0]
   }
-  
+    const handleToggleClick = () => {
+    setShowPwaMenu(state => !state);  
+    }
     return (
         <header className='flex items-center border-b justify-between pb-3'>
-        <Link href='/' className='text-primary font-semibold uppercase text-2xl'>
-          st pizza
-        </Link>
-        <nav className='md:flex hidden  gap-8 items-center text-gray-500 font-semibold'>
-          <Link href='/'>Home</Link>
-          <Link href='/menu'>Menu</Link>
-          <Link href='/#about'>About</Link>
-          <Link href='/#contact'>Contact</Link>
-        </nav>
+          <div className="flex gap-4 items-center">
+            <button onClick={() => setShowPwaMenu(state => !state)} className="flex md:hidden p-1 w-8 h-8">
+              <Menu />
+            </button>
+            <Link href='/' className='text-primary font-semibold uppercase text-2xl'>
+              st pizza
+            </Link>
+          </div>
+          <div className="md:flex hidden">
+            <MainTopMenu />
+          </div>
+          {showPwaMenu && (
+              <div onClick={handleToggleClick} className="inset-0 fixed bg-black/80">
+                <div className="absolute left-2 rounded-lg top-16 p-10 bg-white">
+              <div onClick={(e) => {
+                  e.stopPropagation();
+                  handleToggleClick();
+                }}
+                className="absolute top-2 right-2 cursor-pointer bg-gray-200 rounded-full">
+                      <X />
+                    </div>
+                    <MainTopMenu isOpen={showPwaMenu} />
+                </div>
+              </div>
+          )}
         <nav className="flex items-center gap-4 text-gray-500 font-semibold">
           {status === "authenticated" && (
             <>

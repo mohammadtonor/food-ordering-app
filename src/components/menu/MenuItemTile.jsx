@@ -1,8 +1,12 @@
-export const MenuItemTiles = ({ onAddToCart ,...menuItem }) => {
+import { AddToCartButton } from './../layout/AddToCartButton';
+
+export const MenuItemTiles = ({ onAddToCart, ...menuItem }) => {
     const {
         name, description, image, basePrice,
         extraIngredientPrices, sizes
     } = menuItem;
+    const hasExtras = (sizes?.length > 0 || extraIngredientPrices.length > 0);
+
     return (
         <div className="bg-gray-200 group hover:bg-white p-4 rounded-lg text-center
           transition-all hover:shadow-2xl hover:shadow-black/50">
@@ -15,16 +19,11 @@ export const MenuItemTiles = ({ onAddToCart ,...menuItem }) => {
             <p className="text-gray-500">
                 {description}
             </p>
-            <button
+            <AddToCartButton
+                basePrice={basePrice}
+                hasSizeOrExtras={hasExtras}
                 onClick={onAddToCart}
-                className="primary"
-                type="submit">
-                    {(sizes?.length > 0 || extraIngredientPrices.length > 0) ? (
-                        <span>From ${basePrice}</span>
-                    ): (        
-                        <span>Add To Cart ${basePrice}</span>
-                    )}
-            </button>
+            />
         </div>
     )
 }
