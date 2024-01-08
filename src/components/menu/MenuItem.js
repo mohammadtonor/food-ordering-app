@@ -97,7 +97,7 @@ export const MenuItem = (menuItem) => {
                                 ))}
                             </div>
                         )}
-                         <button
+                            <button
                             onClick={handleAddToCartOnClick}
                             className="primary"
                             type="submit">

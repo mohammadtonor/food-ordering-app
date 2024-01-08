@@ -20,12 +20,15 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "strip": "^3.0.0",
+    "stripe": "^14.11.0",
     "uploadthing": "^6.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "20.10.6",
     "@types/react": "18.2.46",
+    "@types/stripe": "^8.0.417",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",

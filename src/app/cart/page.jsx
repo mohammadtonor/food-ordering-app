@@ -1,12 +1,14 @@
 'use client';
 
-import { CartContext, cartProductPrice } from "../../components/AppContext";
+import { CartContext, cartProductPrice, } from "../../components/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { useProfile } from './../../components/UseProfile';
 import SectionHeader from "../../components/layout/section-header";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { AddressInput } from './../../components/layout/AddressInput';
+import toast from "react-hot-toast";
+import { CartProduct } from "../../components/menu/CartProduct";
 
 const CartPage = () => {
     const { cartProducts, removeFromCart } = useContext(CartContext);
@@ -30,8 +32,45 @@ const CartPage = () => {
     const handleAddressProps = (propName, value) => {
         setAddressProps(prevAddress => ({ ...prevAddress, [propName]: value }));
     }
+
+    const proceedToCheckout = async (e) => {
+        e.preventDefault();
+
+        const promise = new Promise((resolve, reject) => {
+            fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    addressProps,
+                    cartProducts
+                }),
+            }).then(async (res) => {
+                if (res.ok) {
+                    resolve();
+                    window.location = await res.json();
+                } else {
+                    reject();
+                }
+            });
+        });
+
+        await toast.promise(promise, {
+            loading: 'Preparing your order...',
+            success: 'Redirecting To payment..',
+            error: 'Somthing went wrong... Please try again later',
+        })
+    }
     
-    const total = cartProducts.reduce((acc, item) => cartProductPrice(item) + acc, 0);
+    const subTotal = cartProducts.reduce((acc, item) => cartProductPrice(item) + acc, 0);
+
+    if (cartProducts.length === 0) {
+        return (
+            <section className="mt-8 text-center">
+                <SectionHeader mainHeader={'Cart'} />
+                <p className="mt-4">Your shopping cart is empty 😔</p>
+            </section>
+        );
+    }
 
     return ( 
         <section className="mt-8">
@@ -40,59 +79,35 @@ const CartPage = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2  gap-8 mt-6">
                 <div>
-                    {cartProducts?.length === 0 && (
-                        <div>No any Products in your basket </div>
-                    )}
                     {cartProducts.length > 0 && cartProducts.map((item, index) => (
-                        <div key={item._id} className="grid grid-cols-3 items-center gap-4 mb-2 border-b py-2">
-                            <div className="w-24">
-                                <Image width={240} height={240} src={item.image} alt=""/>
-                            </div>
-                            <div>
-                                <h3 className="text-gray-800 font-bold">
-                                    {item.name}
-                                </h3>
-                                {item.sizes && (
-                                    <div className="text-sm items-center text-gray-500  p-1 px-2 my-1 rounded-full">Sizes: <span className="bg-yellow-500 rounded-full text-white p-[6px] px-2 text-center">{item.sizes?.name}</span></div>
-                                )}
-                                {item.extras.length > 0 && (
-                                    <div className="text-sm">
-                                        Extras:
-                                        {item.extras.map((ex) => (
-                                            <div className="my-[2px] text-white text-center bg-orange-500 mx-[1px]  w-24 p-1 rounded-full">{ex.name} ${ex.price}</div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="ml-8 font-bold text-lg">
-                                    ${cartProductPrice(item)}
-                                </div>
-                            <div className="ml-4">
-                                <button
-                                        onClick={() => removeFromCart(index)}        
-                                        className="text-center text-gray-500 items-center p-2">
-                                    <Trash2 className="w-6 h-6"/>
-                                </button>
-                            </div>
-                            </div>
-                        </div>
+                        <CartProduct
+                            key={index}
+                            product={item}
+                            index={index}
+                            onRemove={removeFromCart}
+                        />
                     ))}
-                    <div className="text-right pr-16">
-                        <span className="text-gray-500">SubTotal:</span> 
-                        <span className="text-lg font-semibold pl-2">
-                            ${total}
-                        </span>
+                    <div className="text-right py-2 pr-14 flex justify-end items-center">
+                        <div className="text-gray-500">
+                            SubTotal:<br />
+                            Delivery:<br />
+                            Total:
+                        </div>
+                        <div className="font-semibold  pl-2 text-right">
+                            ${subTotal}<br />
+                            $5<br />
+                            ${subTotal + 5}
+                        </div>
                     </div>
                 </div>
                 <div className="bg-gray-100 p-4 rounded-lg">
                     <h1>Chechout</h1>
-                    <form>
+                    <form onSubmit={proceedToCheckout}>
                         <AddressInput
                             addressProps={addressProps}
                             setAddressProps={handleAddressProps}
                         />
-                        <button type="submit">Pay ${total}</button>
+                        <button type="submit">Pay ${subTotal+5}</button>
                     </form>
                 </div>
             </div>
