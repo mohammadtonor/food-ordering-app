@@ -31,7 +31,7 @@ const ProfilePage = () => {
             })
         }
     },[session,status])
-
+    console.log(userInfo);
     const handleProfileInfoUpdate = async (ev, data) => {
         ev.preventDefault();
         const savePromise = new Promise(async (resolve, reject) => {
@@ -60,6 +60,7 @@ const ProfilePage = () => {
     if (status === 'unauthenticated') {
         return redirect('/login');
     }
+
 
     return ( 
         <section className="mt-8">
