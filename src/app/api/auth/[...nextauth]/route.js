@@ -1,16 +1,12 @@
 import NextAuth, { getServerSession, AuthOptions } from "next-auth";
-import clientPromise from "../../../../libs/mongoConnect";
 import bcrypt from "bcrypt";
 import * as mongoose from "mongoose";
 import {User} from '../../../../models/User';
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { UserInfo } from "../../../../models/UserInfo";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
 
-export const authOptions = {
+const authOptions = {
   secret: process.env.SECRET,
-  //adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -40,19 +36,6 @@ export const authOptions = {
     })
   ],
 };
-
-export async function isAdmin() {
-  const session = await getServerSession(authOptions);
-  const userEmail = session?.user?.email;
-  if (!userEmail) {
-    return false;
-  }
-  const userInfo = await UserInfo.findOne({email:userEmail});
-  if (!userInfo) {
-    return false;
-  }
-  return userInfo.admin;
-}
 
 const handler = NextAuth(authOptions);
 
