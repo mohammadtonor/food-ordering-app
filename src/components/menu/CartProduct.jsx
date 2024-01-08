@@ -24,7 +24,7 @@ export const CartProduct = ({product, onRemove, index}) => {
                     <div className="text-sm">
                         Extras:
                         {product.extras.map((ex) => (
-                            <div className="my-[2px] text-white text-center bg-orange-500 mx-[1px]  w-24 p-1 rounded-full">
+                            <div key={ex.name} className="my-[2px] text-white text-center bg-orange-500 mx-[1px]  w-24 p-1 rounded-full">
                                 {ex.name} ${ex.price}
                             </div>
                         ))}

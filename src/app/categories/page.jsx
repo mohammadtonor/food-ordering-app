@@ -128,6 +128,7 @@ const CategoriesPage = () => {
                 <h2 className='mt-8 mb-2 text-sm text-gray-500'>Edit category</h2>
                 {categories.length > 0 && categories.map((category) => (
                     <div
+                        key={category._id}
                         className='bg-gray-200  px-4 justify-end rounded-xl items-center p-2 flex gap-2 mb-1'
                     >
                         <div className='grow'>

@@ -39,7 +39,7 @@ export const MenuItemPriceProps = ({ props, setProps, nameProps, labelProps}) =>
             </div>
             <div className={expanded ? 'block' : 'hidden'}>
               {props?.length > 0 && props.map((prop, index) => (
-                <div className="flex gap-2">
+                <div key={index} className="flex gap-2">
                     <div>
                         <label>Size name</label>
                         <input

@@ -43,7 +43,7 @@ const MenuItemsPage = () => {
                 <h2 className='text-gray-500 text-sm mt-8 mb-2'>Edit Menu item</h2>
                 <div className='grid grid-cols-3 gap-2'>
                 {menuItems?.length > 0 && menuItems.map(item => (
-                    <Link href={'/menu-items/edit/' + item._id} className='button flex flex-col'>
+                    <Link key={item._id} href={'/menu-items/edit/' + item._id} className='button flex flex-col'>
                         <div className='relative'>
                             <Image src={item.image} alt='menu-item' width={200} height={200}/>
                         </div>
