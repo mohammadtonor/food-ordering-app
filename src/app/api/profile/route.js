@@ -1,4 +1,4 @@
-import { authOptions } from "./../auth/[...nextauth]/route";
+import { authOptions } from "./../../../pages/api/auth/[...nextauth]";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { User } from './../../../models/User';
@@ -17,7 +17,7 @@ export async function PUT(req) {
         const email = session.user.email;
         filter = { email };
     }
-
+    console.log(filter);
     const user = await User.findOne(filter);
     await User.updateOne(filter, { name, image });
     await UserInfo.findOneAndUpdate( {email: user.email}, otherDataInfo, {upsert: true});
