@@ -19,14 +19,16 @@ export const authOptions:AuthOptions = {
       CredentialsProvider({
         name: 'Credentials',
         credentials: {
-          username: { label: "Email", type: "email", placeholder: "test@example.com" },
+          email: { label: "Username", type: "email", placeholder: "test@example.com" },
           password: { label: "Password", type: "password" },
         },
         async authorize(credentials, req) {
-          if (!credentials?.username || !credentials?.password) {
+          console.log(credentials?.email, credentials?.password);
+          
+          if (!credentials?.email || !credentials?.password) {
             throw new Error('Invalid credentials');
           }
-          const email = credentials?.username;
+          const email = credentials?.email;
           const password = credentials?.password;
   
           mongoose.connect(process.env.MONGO_URL!);
